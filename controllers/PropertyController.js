@@ -4,73 +4,101 @@ const Property = require('../models/Property');
 // @route   POST /api/properties
 // @access  Public
 exports.addProperty = async (req, res) => {
-    console.log('Incoming request body:', req.body);
+  console.log('Incoming request body:', req.body);
 
-    try {
-        const {
-            title,
-            description,
-            category,
-            listedIn,
-            price,
-            size,
-            bedrooms,
-            bathrooms,
-            kitchens,
-            yearBuilt,
-            floors,
-            amenities,
-            address,
-            location,
-            ownerContactNumber,
-            images, // Image URLs from frontend
-            userId,
-            city, // City provided by the user
-        } = req.body;
+  try {
+    const {
+      userId,
+      title,
+      description,
+      category,
+      listedIn,
+      price,
+      size,
+      bedrooms,
+      bathrooms,
+      kitchens,
+      yearBuilt,
+      floors,
+      address,
+      location,
+      city,
+      locationListing,
+      amenities,
+      images,
+      video,
+      ownerContactNumber,
+      builtupArea,
+      carpetArea,
+      maintenanceAmount,
+      totalFloors,
+      carParking,
+      facing,
+      projectName,
+      homeName,
+      landType,
+      shopType,
+      officeType,
+      apartmentType,
+    } = req.body;
 
-        // Validate required fields
-        if (!userId || !title || !price || !address || !city) {
-            return res.status(400).json({
-                success: false,
-                message: 'User ID, title, price, address, and city are required',
-            });
-        }
-
-        // Create the property in the database
-        const property = await Property.create({
-            userId,
-            title,
-            description,
-            category,
-            listedIn,
-            price,
-            size,
-            bedrooms,
-            bathrooms,
-            kitchens,
-            yearBuilt,
-            floors,
-            amenities,
-            ownerContactNumber,
-            address,
-            location,
-            city, // Use the city provided by the user
-            images,
-        });
-
-        res.status(201).json({
-            success: true,
-            message: 'Property added successfully',
-            property,
-        });
-    } catch (error) {
-        console.error('Error adding property:', error);
-        res.status(500).json({
-            success: false,
-            message: 'Error adding property',
-            error: error.message,
-        });
+    // Validate required fields
+    if (!userId || !title || !price || !address || !city) {
+      return res.status(400).json({
+        success: false,
+        message: 'User ID, title, price, address, and city are required',
+      });
     }
+
+    // Create the property in the database
+    const property = await Property.create({
+      userId,
+      title,
+      description,
+      category,
+      listedIn,
+      price,
+      size,
+      bedrooms,
+      bathrooms,
+      kitchens,
+      yearBuilt,
+      floors,
+      address,
+      location,
+      city,
+      locationListing,
+      amenities,
+      images,
+      video,
+      ownerContactNumber,
+      builtupArea,
+      carpetArea,
+      maintenanceAmount,
+      totalFloors,
+      carParking,
+      facing,
+      projectName,
+      homeName,
+      landType,
+      shopType,
+      officeType,
+      apartmentType,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'Property added successfully',
+      property,
+    });
+  } catch (error) {
+    console.error('Error adding property:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error adding property',
+      error: error.message,
+    });
+  }
 };
 
 // @desc    Get all properties
